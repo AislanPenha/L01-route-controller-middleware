@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\OnlyAdmin;
 use Illuminate\Http\Request;
@@ -149,3 +150,17 @@ Route::prefix('user')
 Route::fallback(function() {
     echo "<h1>PÁGINA NÃO ENCONTRADA</h1>";
 });
+
+// Ordem mais comum
+// Route::prefix('user')
+//     ->name('user.')
+//     ->middleware([OnlyAdmin::class])
+//     ->controller(UserController::class)
+//     ->group(function () {
+//         Route::get('new', 'new')->name('new');
+//         Route::get('edit', 'edit')->name('edit');
+//         Route::get('delete', 'delete')->name('delete');
+//     });
+
+Route::get('/init_master', [MasterController::class, 'initMethod'])->name('init_master');
+Route::get('/view_master', [MasterController::class, 'viewPage'])->name('view_master');
