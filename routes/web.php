@@ -200,11 +200,20 @@ Route::get('/teste/{value}', [MasterController::class, 'teste']);
 //     ->name('contact')
 //     ->middleware([StartMiddleware::class, EndMiddleware::class]);
 
-Route::middleware([StartMiddleware::class, EndMiddleware::class])
+// Route::middleware([StartMiddleware::class, EndMiddleware::class])
+//     ->controller(MainController::class)
+//     ->group(function() {
+//         Route::get('/', 'index');
+//         Route::get('/about', 'about')->withoutMiddleware([EndMiddleware::class]); // remove o Middleware
+//         Route::get('/contact', 'contact');
+
+// });
+
+// grupo de middleware criada no app.php da pasta bootstrap
+Route::middleware(['correr_antes'])
     ->controller(MainController::class)
     ->group(function() {
         Route::get('/', 'index');
-        Route::get('/about', 'about')->withoutMiddleware([EndMiddleware::class]); // remove o Middleware
+        Route::get('/about', 'about');
         Route::get('/contact', 'contact');
-
-});
+    });
