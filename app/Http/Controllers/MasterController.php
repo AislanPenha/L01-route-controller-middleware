@@ -23,4 +23,10 @@ class MasterController extends Controller
         return view('welcome');
     }
 
+    // Chamando a função do Controller
+    public function teste(string $value): void
+    {
+        echo "A string final é: " . $this->cleanUpperCaseString($value);
+    }
+
 }

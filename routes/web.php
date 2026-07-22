@@ -180,3 +180,5 @@ Route::resources([
     'clientes'     => ClientController::class, 
     'produtos'     => ProductController::class
 ]);
+
+Route::get('/teste/{value}', [MasterController::class, 'teste']);
