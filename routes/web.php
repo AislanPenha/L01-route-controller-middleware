@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\OnlyAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -77,3 +79,73 @@ Route::get('/exp2/{value}', function($value) {
 Route::get('/exp3/{id}/{name}', function ($value1, $value2) {
     echo "ID: $value1 e NAME: $value2";
 })->whereNumber('id')->whereAlpha('name');
+
+// ---------------------------------------------
+// ROUTE NAMES
+// ---------------------------------------------
+Route::get('/rota_abc', function() {
+    return 'Rota nomeada';
+})->name('rota_nomeada');
+
+Route::get('/rota_referenciada', function() {
+    return redirect()->route('rota_nomeada');
+});
+
+Route::prefix('admin')->group(function() {
+    Route::get('home', [MainController::class, 'index']);
+    Route::get('about', [MainController::class, 'about']);
+    Route::get('management/{value?}', [MainController::class, 'mostrarValorOpcional']);
+});
+/*
+admin/home
+admin/about
+admin/management
+*/
+
+Route::get('admin/only', function() {
+    echo 'Apenas administradores!';
+})->middleware([OnlyAdmin::class]);
+
+// Route::middleware([OnlyAdmin::class])->group(function() {
+//     Route::get('admin/only1', function() {
+//         return 'Apenas administradores 1!';
+//     });
+//     Route::get('admin/only2', function() {
+//         return 'Apenas administradores 2!';
+//     });
+//     Route::get('admin/only3', function() {
+//         return 'Apenas administradores 3!';
+//     });
+// });
+
+Route::prefix('admin')
+    ->middleware([OnlyAdmin::class])
+    ->group(function() {
+        Route::get('only1', function() {
+            return 'Apenas administradores 1!';
+        });
+        Route::get('only2', function() {
+            return 'Apenas administradores 2!';
+        });
+        Route::get('only3', function() {
+            return 'Apenas administradores 3!';
+        });
+    });
+
+// Route::controller(UserController::class)->group(function() {
+//     Route::get('/user/new', 'new');
+//     Route::get('/user/edit', 'edit');
+//     Route::get('/user/delete', 'delete');
+// });
+
+Route::prefix('user')
+    ->controller(UserController::class)
+    ->group(function () {
+        Route::get('new', 'new');
+        Route::get('edit', 'edit');
+        Route::get('delete', 'delete');
+    });
+
+Route::fallback(function() {
+    echo "<h1>PÁGINA NÃO ENCONTRADA</h1>";
+});
