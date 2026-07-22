@@ -7,7 +7,9 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SingleActionController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\EndMiddleware;
 use App\Http\Middleware\OnlyAdmin;
+use App\Http\Middleware\StartMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,8 +37,8 @@ Route::any('/any', function(Request $request) {
     return '<h1>Aceita qualquer http verb</h1>';
 });
 
-Route::get('/index', [MainController::class, 'index']);
-Route::get('/about', [MainController::class, 'about']);
+// Route::get('/index', [MainController::class, 'index']);
+// Route::get('/about', [MainController::class, 'about']);
 
 Route::redirect('/saltar', '/index');
 Route::permanentRedirect('/saltar2', '/index');
@@ -181,4 +183,28 @@ Route::resources([
     'produtos'     => ProductController::class
 ]);
 
+// metodo teste utilizando metodo da classe abstract (Controller)
 Route::get('/teste/{value}', [MasterController::class, 'teste']);
+
+
+// ESTOU DO MIDDLEWARE
+// Route::get('/', [MainController::class, 'index'])
+//     ->name('index')
+//     ->middleware([StartMiddleware::class]);
+
+// Route::get('/about', [MainController::class, 'about'])
+//     ->name('about')
+//     ->middleware([EndMiddleware::class]);
+
+// Route::get('/contact', [MainController::class, 'contact'])
+//     ->name('contact')
+//     ->middleware([StartMiddleware::class, EndMiddleware::class]);
+
+Route::middleware([StartMiddleware::class, EndMiddleware::class])
+    ->controller(MainController::class)
+    ->group(function() {
+        Route::get('/', 'index');
+        Route::get('/about', 'about')->withoutMiddleware([EndMiddleware::class]); // remove o Middleware
+        Route::get('/contact', 'contact');
+
+});

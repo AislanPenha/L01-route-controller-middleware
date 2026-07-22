@@ -8,12 +8,17 @@ class MainController extends Controller
 {
     public function index()
     {
-        echo 'index';
+        echo '<p>Index</p>';
     }
 
     public function about()
     {
-        echo 'about';
+        echo '<p>About</p>';
+    }
+
+    public function contact()
+    {
+        echo '<p>Contact</p>';
     }
 
     public function mostrarValor($valor)
