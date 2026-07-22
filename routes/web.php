@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,13 @@ Route::match(['get', 'post'], '/match', function(Request $request) {
 Route::any('/any', function(Request $request) {
     return '<h1>Aceita qualquer http verb</h1>';
 });
+
+Route::get('/index', [MainController::class, 'index']);
+Route::get('/about', [MainController::class, 'about']);
+
+Route::redirect('/saltar', '/index');
+Route::permanentRedirect('/saltar2', '/index');
+
+Route::view('/view', 'welcome');
+Route::view('/view2', 'welcome', ['name' => 'Aislan Penha']);
 
