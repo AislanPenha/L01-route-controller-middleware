@@ -49,3 +49,31 @@ Route::get('/opcional1/{value1}/{value2?}', [MainController::class, 'mostrarValo
 
 Route::get('/user/{user_id}/post/{post_id}', [MainController::class, 'mostrarPosts']);
 
+// ---------------------------------------------
+// ROUTE PARAMETERS WITH CONSTRAINSTS
+// ---------------------------------------------
+// Route::get('/exp1/{value}', function($value) {
+//     echo $value;
+// })->where('value', '[0-9]+');
+Route::get('/exp1/{value}', function($value) {
+    echo $value;
+})->whereNumber('value');
+
+// Route::get('/exp2/{value}', function($value) {
+//     echo $value;
+// })->where('value', '[A-Za-z0-9]+');
+
+Route::get('/exp2/{value}', function($value) {
+    echo $value;
+})->whereAlphaNumeric('value');
+
+// Route::get('/exp3/{id}/{name}', function($value1, $value2) {
+//     echo "ID: $value1 e NAME: $value2";
+// })->where([
+//     'id'   => '[0-9]+',
+//     'name' => '[A-Za-z]+'
+// ]);
+
+Route::get('/exp3/{id}/{name}', function ($value1, $value2) {
+    echo "ID: $value1 e NAME: $value2";
+})->whereNumber('id')->whereAlpha('name');
