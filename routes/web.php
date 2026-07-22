@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SingleActionController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\OnlyAdmin;
 use Illuminate\Http\Request;
@@ -164,3 +168,15 @@ Route::fallback(function() {
 
 Route::get('/init_master', [MasterController::class, 'initMethod'])->name('init_master');
 Route::get('/view_master', [MasterController::class, 'viewPage'])->name('view_master');
+
+// route para controller single action
+Route::get('/single', SingleActionController::class)->name('single');
+
+// route para controller do tipo resource
+// Route::resource('funcionarios', FuncionarioController::class);
+
+Route::resources([
+    'funcionarios' => FuncionarioController::class,
+    'clientes'     => ClientController::class, 
+    'produtos'     => ProductController::class
+]);
