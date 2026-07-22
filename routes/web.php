@@ -187,7 +187,7 @@ Route::resources([
 Route::get('/teste/{value}', [MasterController::class, 'teste']);
 
 
-// ESTOU DO MIDDLEWARE
+// ESTUDO MIDDLEWARE
 // Route::get('/', [MainController::class, 'index'])
 //     ->name('index')
 //     ->middleware([StartMiddleware::class]);
