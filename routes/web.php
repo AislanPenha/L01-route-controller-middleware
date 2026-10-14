@@ -172,6 +172,7 @@ Route::get('/init_master', [MasterController::class, 'initMethod'])->name('init_
 Route::get('/view_master', [MasterController::class, 'viewPage'])->name('view_master');
 
 // route para controller single action
+// só tem um método público
 Route::get('/single', SingleActionController::class)->name('single');
 
 // route para controller do tipo resource
